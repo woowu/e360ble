@@ -45,7 +45,7 @@ async function connectDevice(address, autoDisconnect = true)
         noble.on('discover', async peri => {
             if (peri.address != address.toLowerCase())
                 return;
-            if (++visibleCount < 3)
+            if (++visibleCount != 3)
                 return;
 
             await noble.stopScanningAsync();
@@ -159,34 +159,35 @@ const argv = yargs(process.argv.slice(2))
         },
         async (argv) => {
             const peri = await connectDevice(argv.address);
+
             try {
                 const { services, characteristics } = await fetchDeviceAttInfo(peri);
+                console.log(`${services.length} services`);
+                console.log(`${characteristics.length} characteristics`);
+
+                const ssOut = [];
+                const csOut = [];
+
+                for (const e of services) {
+                    const { _noble, ...ss } = e;
+                    if (ss.characteristics)
+                        ss.characteristics = ss.characteristics.map(e => {
+                            const { _noble, ...cs } = e;
+                            return cs;
+                        });
+                    ssOut.push(ss);
+                }
+                for (const c of characteristics) {
+                    const { _noble, ...cs } = c;
+                    csOut.push(cs);
+                }
+                fs.writeFileSync(argv.output, prettyjson.render({
+                    services: ssOut,
+                    characterstics: csOut,
+                }, { noColor: true }));
             } catch (e) {
                 await disconnectAndExit(peri);
             }
-            const ssOut = [];
-            const csOut = [];
-
-            console.log(`${services.length} services`);
-            console.log(`${characteristics.length} characteristics`);
-
-            for (const e of services) {
-                const { _noble, ...ss } = e;
-                if (ss.characteristics)
-                    ss.characteristics = ss.characteristics.map(e => {
-                        const { _noble, ...cs } = e;
-                        return cs;
-                    });
-                ssOut.push(ss);
-            }
-            for (const c of characteristics) {
-                const { _noble, ...cs } = c;
-                csOut.push(cs);
-            }
-            fs.writeFileSync(argv.output, prettyjson.render({
-                services: ssOut,
-                characterstics: csOut,
-            }, { noColor: true }));
         })
     .command('sendn',
         'do send-n test using the Terminal service and the meter echo server',
@@ -213,6 +214,13 @@ const argv = yargs(process.argv.slice(2))
                     requiresArg: true,
                     describe: 'size of each packet',
                     default: 244,
+                })
+                .option('d', {
+                    alias: 'delay',
+                    type: 'number',
+                    requiresArg: true,
+                    describe: 'inter-packet delay (ms)',
+                    default: 10,
                 })
                 .option('l', {
                     alias: 'log',
@@ -288,7 +296,7 @@ const argv = yargs(process.argv.slice(2))
                 startTimer();
                 console.log('listen to notify');
 
-                cWrite.write(Buffer.from(`SENDn ${argv.count} ${argv.size}`), false, err => {
+                cWrite.write(Buffer.from(`SENDn ${argv.count} ${argv.size} ${argv.delay}`), false, err => {
                     if (err) console.log('write error:', err);
                 });
             });
