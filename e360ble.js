@@ -113,16 +113,16 @@ const argv = yargs(process.argv.slice(2))
         'scan devices',
         yargs => {
             yargs
-                .option('s', {
-                    alias: 'service',
-                    type: 'string',
-                    describe: 'Service UUIDs, separated with comma',
-                })
                 .option('a', {
                     alias: 'address',
                     type: 'string',
                     describe: 'Full or partial of a bluetooth device address as a filter. '
                         + 'An example TI CC24* address: 84:72:93:f5:1e:63',
+                })
+                .option('s', {
+                    alias: 'service',
+                    type: 'string',
+                    describe: 'Service UUIDs, separated with comma',
                 })
         },
         async (argv) => {
