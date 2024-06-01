@@ -5,8 +5,8 @@ import fs from 'node:fs';
 import dump from 'buffer-hexdump';
 import yargs from 'yargs/yargs';
 import noble from '@abandonware/noble';
-import { prettyPrint } from '@base2/pretty-print-object';
 import prettyjson from 'prettyjson';
+import ouiData from './third-party/oui-data.js';
 
 const uuids = {
     terminalWrite:  'f000c0c104514000b000000000000000',
@@ -25,13 +25,20 @@ function delay(ms)
 function printPeripheral(peri)
 {
     const {_noble, ...p} = peri;
-    console.log(prettyPrint(p, { indent: '  ' }));
+
+    console.log('++', peri.address, peri.rssi);
+    const oui = p.address.split(':').slice(0, 3).join('').toUpperCase();
+    if (ouiData[oui]) console.log(ouiData[oui]);
+
+    if (p.advertisement && Buffer.isBuffer(p.advertisement.manufacturerData))
+        p.advertisement.manufacturerData = p.advertisement.manufacturerData.toString('hex');
+    console.log(prettyjson.render(p, { noColor: true }));
+    console.log('');
 }
 
 async function startScan(service, allowDup)
 {
     noble.on('stateChange', async (state) => {
-        if (service) console.log(service);
         if (state === 'poweredOn') await noble.startScanningAsync(
             service ? service.split(',') : [], allowDup);
     });
@@ -119,6 +126,16 @@ const argv = yargs(process.argv.slice(2))
                     describe: 'Full or partial of a bluetooth device address as a filter. '
                         + 'An example TI CC24* address: 84:72:93:f5:1e:63',
                 })
+                .option('rssi-gt', {
+                    type: 'number',
+                    describe: 'RSSI number greater than the given value',
+                    requiresArg: true,
+                })
+                .option('rssi-lt', {
+                    type: 'number',
+                    describe: 'RSSI number less than the given value',
+                    requiresArg: true,
+                })
                 .option('s', {
                     alias: 'service',
                     type: 'string',
@@ -128,11 +145,14 @@ const argv = yargs(process.argv.slice(2))
         async (argv) => {
             noble.on('discover', async peripheral => {
                 const {_noble, ...peri} = peripheral;
-                if (! argv.address
-                    || peri.address.includes(argv.address.toLowerCase())) {
-                    console.log('++', peri.address, peri.rssi);
-                    printPeripheral(peri);
-                }
+                if (argv.address
+                    && ! peri.address.includes(argv.address.toLowerCase()))
+                    return;
+                if (argv.rssiLt && parseInt(peri.rssi) >= argv.rssiLt)
+                    return;
+                if (argv.rssiGt && parseInt(peri.rssi) <= argv.rssiGt)
+                    return;
+                printPeripheral(peri);
             });
             startScan(argv.service, true);
         })
@@ -181,10 +201,11 @@ const argv = yargs(process.argv.slice(2))
                     const { _noble, ...cs } = c;
                     csOut.push(cs);
                 }
-                fs.writeFileSync(argv.output, prettyjson.render({
-                    services: ssOut,
-                    characterstics: csOut,
-                }, { noColor: true }));
+                fs.writeFile(argv.output, prettyjson.render({
+                        services: ssOut,
+                        characterstics: csOut,
+                    }, { noColor: true })
+                    , err => {});
             } catch (e) {
                 await disconnectAndExit(peri);
             }
