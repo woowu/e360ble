@@ -6,7 +6,7 @@ import dump from 'buffer-hexdump';
 import yargs from 'yargs/yargs';
 import noble from '@abandonware/noble';
 import prettyjson from 'prettyjson';
-import ouiData from './third-party/oui-data.js';
+import ouiData from './oui-data.js';
 
 const uuids = {
     terminalWrite:  'f000c0c104514000b000000000000000',
