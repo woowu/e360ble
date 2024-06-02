@@ -26,7 +26,11 @@ function printPeripheral(peri)
 {
     const {_noble, ...p} = peri;
 
-    console.log('++', peri.address, peri.rssi);
+    var localName = '';
+    if (p.advertisement && p.advertisement.localName)
+        localName = p.advertisement.localName;
+    
+    console.log('++', peri.address, localName, peri.rssi);
     const oui = p.address.split(':').slice(0, 3).join('').toUpperCase();
     if (ouiData[oui]) console.log(ouiData[oui]);
 
