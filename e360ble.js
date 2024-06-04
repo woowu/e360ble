@@ -4,7 +4,8 @@
 import fs from 'node:fs';
 import dump from 'buffer-hexdump';
 import yargs from 'yargs/yargs';
-import noble from '@abandonware/noble';
+import nobleLegacy from '@abandonware/noble';
+import Noble from '@abandonware/noble/with-custom-binding.js';
 import prettyjson from 'prettyjson';
 import ouiData from './oui-data.js';
 
@@ -12,6 +13,11 @@ const uuids = {
     terminalWrite:  'f000c0c104514000b000000000000000',
     terminalNotify: 'f000c0c204514000b000000000000000',
 };
+
+function useNoble(ble5)
+{
+    return ble5 ? Noble({extended: true}) : nobleLegacy;
+}
 
 function delay(ms)
 {
@@ -40,7 +46,7 @@ function printPeripheral(peri)
     console.log('');
 }
 
-async function startScan(service, allowDup)
+async function startScan(noble, service, allowDup)
 {
     noble.on('stateChange', async (state) => {
         if (state === 'poweredOn') await noble.startScanningAsync(
@@ -48,7 +54,7 @@ async function startScan(service, allowDup)
     });
 }
 
-async function connectDevice(address, autoDisconnect = true)
+async function connectDevice(noble, address, autoDisconnect = true)
 {
     return new Promise((resolve, reject) => {
         var visibleCount = 0;
@@ -78,7 +84,7 @@ async function connectDevice(address, autoDisconnect = true)
             resolve(peri);
         });
         console.log('start scan');
-        startScan(null, true);
+        startScan(noble, null, true);
     });
 }
 
@@ -120,6 +126,10 @@ function findCharacteristic(characteristics, uuid)
 
 const argv = yargs(process.argv.slice(2))
     .version('0.0.1')
+    .option('e', {
+        alias: 'ble5',
+        type: 'boolean',
+    })
     .command('scan',
         'scan devices',
         yargs => {
@@ -147,6 +157,7 @@ const argv = yargs(process.argv.slice(2))
                 })
         },
         async (argv) => {
+            const noble = useNoble(argv.ble5);
             noble.on('discover', async peripheral => {
                 const {_noble, ...peri} = peripheral;
                 if (argv.address
@@ -158,7 +169,7 @@ const argv = yargs(process.argv.slice(2))
                     return;
                 printPeripheral(peri);
             });
-            startScan(argv.service, true);
+            startScan(noble, argv.service, true);
         })
     .command('dump-att',
         'dump attributes',
@@ -182,7 +193,8 @@ const argv = yargs(process.argv.slice(2))
                 })
         },
         async (argv) => {
-            const peri = await connectDevice(argv.address);
+            const noble = useNoble(argv.ble5);
+            const peri = await connectDevice(noble, argv.address);
 
             try {
                 const { services, characteristics } = await fetchDeviceAttInfo(peri);
@@ -256,7 +268,8 @@ const argv = yargs(process.argv.slice(2))
                 })
         },
         async (argv) => {
-            const peri = await connectDevice(argv.address, false);
+            const noble = useNoble(argv.ble5);
+            const peri = await connectDevice(noble, argv.address, false);
             var cWrite;
             var cNotify;
 
