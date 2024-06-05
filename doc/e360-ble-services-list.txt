@@ -1,0 +1,251 @@
+services: 
+  - 
+    _peripheralId:        847293f51e63
+    uuid:                 1800
+    name:                 Generic Access
+    type:                 org.bluetooth.service.generic_access
+    includedServiceUuids: null
+    characteristics: 
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  1800
+        uuid:          2a00
+        name:          Device Name
+        type:          org.bluetooth.characteristic.gap.device_name
+        properties: 
+          - read
+          - write
+        descriptors:   null
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  1800
+        uuid:          2a01
+        name:          Appearance
+        type:          org.bluetooth.characteristic.gap.appearance
+        properties: 
+          - read
+          - write
+        descriptors:   null
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  1800
+        uuid:          2a04
+        name:          Peripheral Preferred Connection Parameters
+        type:          org.bluetooth.characteristic.gap.peripheral_preferred_connection_parameters
+        properties: 
+          - read
+        descriptors:   null
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  1800
+        uuid:          2aa6
+        name:          Central Address Resolution
+        type:          org.bluetooth.characteristic.central_address_resolution
+        properties: 
+          - read
+        descriptors:   null
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  1800
+        uuid:          2ac9
+        name:          null
+        type:          null
+        properties: 
+          - read
+        descriptors:   null
+    _events: 
+    _eventsCount:         0
+  - 
+    _peripheralId:        847293f51e63
+    uuid:                 1801
+    name:                 Generic Attribute
+    type:                 org.bluetooth.service.generic_attribute
+    includedServiceUuids: null
+    characteristics: 
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  1801
+        uuid:          2a05
+        name:          Service Changed
+        type:          org.bluetooth.characteristic.gatt.service_changed
+        properties: 
+          - indicate
+        descriptors:   null
+    _events: 
+    _eventsCount:         0
+  - 
+    _peripheralId:        847293f51e63
+    uuid:                 180a
+    name:                 Device Information
+    type:                 org.bluetooth.service.device_information
+    includedServiceUuids: null
+    characteristics: 
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  180a
+        uuid:          2a29
+        name:          Manufacturer Name String
+        type:          org.bluetooth.characteristic.manufacturer_name_string
+        properties: 
+          - read
+        descriptors:   null
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  180a
+        uuid:          2a26
+        name:          Firmware Revision String
+        type:          org.bluetooth.characteristic.firmware_revision_string
+        properties: 
+          - read
+        descriptors:   null
+    _events: 
+    _eventsCount:         0
+  - 
+    _peripheralId:        847293f51e63
+    uuid:                 f000c0c004514000b000000000000000
+    name:                 null
+    type:                 null
+    includedServiceUuids: null
+    characteristics: 
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  f000c0c004514000b000000000000000
+        uuid:          f000c0c104514000b000000000000000
+        name:          null
+        type:          null
+        properties: 
+          - write
+        descriptors:   null
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  f000c0c004514000b000000000000000
+        uuid:          f000c0c204514000b000000000000000
+        name:          null
+        type:          null
+        properties: 
+          - notify
+        descriptors:   null
+    _events: 
+    _eventsCount:         0
+  - 
+    _peripheralId:        847293f51e63
+    uuid:                 f000ffd004514000b000000000000000
+    name:                 null
+    type:                 null
+    includedServiceUuids: null
+    characteristics: 
+      - 
+        _peripheralId: 847293f51e63
+        _serviceUuid:  f000ffd004514000b000000000000000
+        uuid:          f000ffd104514000b000000000000000
+        name:          null
+        type:          null
+        properties: 
+          - writeWithoutResponse
+          - write
+        descriptors:   null
+    _events: 
+    _eventsCount:         0
+characterstics: 
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  1800
+    uuid:          2a00
+    name:          Device Name
+    type:          org.bluetooth.characteristic.gap.device_name
+    properties: 
+      - read
+      - write
+    descriptors:   null
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  1800
+    uuid:          2a01
+    name:          Appearance
+    type:          org.bluetooth.characteristic.gap.appearance
+    properties: 
+      - read
+      - write
+    descriptors:   null
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  1800
+    uuid:          2a04
+    name:          Peripheral Preferred Connection Parameters
+    type:          org.bluetooth.characteristic.gap.peripheral_preferred_connection_parameters
+    properties: 
+      - read
+    descriptors:   null
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  1800
+    uuid:          2aa6
+    name:          Central Address Resolution
+    type:          org.bluetooth.characteristic.central_address_resolution
+    properties: 
+      - read
+    descriptors:   null
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  1800
+    uuid:          2ac9
+    name:          null
+    type:          null
+    properties: 
+      - read
+    descriptors:   null
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  180a
+    uuid:          2a29
+    name:          Manufacturer Name String
+    type:          org.bluetooth.characteristic.manufacturer_name_string
+    properties: 
+      - read
+    descriptors:   null
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  180a
+    uuid:          2a26
+    name:          Firmware Revision String
+    type:          org.bluetooth.characteristic.firmware_revision_string
+    properties: 
+      - read
+    descriptors:   null
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  1801
+    uuid:          2a05
+    name:          Service Changed
+    type:          org.bluetooth.characteristic.gatt.service_changed
+    properties: 
+      - indicate
+    descriptors:   null
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  f000c0c004514000b000000000000000
+    uuid:          f000c0c104514000b000000000000000
+    name:          null
+    type:          null
+    properties: 
+      - write
+    descriptors:   null
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  f000c0c004514000b000000000000000
+    uuid:          f000c0c204514000b000000000000000
+    name:          null
+    type:          null
+    properties: 
+      - notify
+    descriptors:   null
+  - 
+    _peripheralId: 847293f51e63
+    _serviceUuid:  f000ffd004514000b000000000000000
+    uuid:          f000ffd104514000b000000000000000
+    name:          null
+    type:          null
+    properties: 
+      - writeWithoutResponse
+      - write
+    descriptors:   null

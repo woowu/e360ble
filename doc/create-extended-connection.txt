@@ -1,0 +1,13 @@
+01
+  4320
+  2a            # length
+  00            # Filter Accept List not used
+  00            # public address for own
+  00            # public address for peer
+  631ef5937284  # peer address
+  05            # initial PHYs
+  6000 6000     # scan interval
+  0600 1200     # scan window
+  0000 2a00     # min connection interval
+  0000 0000     # max connection interval
+  600060000600120000002a0000000000
