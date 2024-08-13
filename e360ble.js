@@ -252,13 +252,6 @@ const argv = yargs(process.argv.slice(2))
                     describe: 'size of each packet',
                     default: 244,
                 })
-                .option('d', {
-                    alias: 'delay',
-                    type: 'number',
-                    requiresArg: true,
-                    describe: 'inter-packet delay (ms)',
-                    default: 10,
-                })
                 .option('l', {
                     alias: 'log',
                     type: 'string',
@@ -334,7 +327,8 @@ const argv = yargs(process.argv.slice(2))
                 startTimer();
                 console.log('listen to notify');
 
-                cWrite.write(Buffer.from(`SENDn ${argv.count} ${argv.size} ${argv.delay}`), false, err => {
+                console.log(`sendn ${argv.count} ${argv.size};`);
+                cWrite.write(Buffer.from(`sendn ${argv.size} ${argv.count};`), false, err => {
                     if (err) console.log('write error:', err);
                 });
             });
