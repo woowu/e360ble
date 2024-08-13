@@ -317,10 +317,8 @@ const argv = yargs(process.argv.slice(2))
                     lastTime = new Date();
 
                     console.log(`${readCount} got data. len ${data.length}`);
-                    if (argv.log) {
-                        logSink.write(`-- ${readCount}\n`);
+                    if (argv.log)
                         logSink.write(dump(data) + '\n');
-                    }
                     recvLen += data.length;
                     startTimer();
                 });
