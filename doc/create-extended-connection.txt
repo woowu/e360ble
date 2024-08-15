@@ -5,9 +5,16 @@
   00            # public address for own
   00            # public address for peer
   631ef5937284  # peer address
-  05            # initial PHYs
-  6000 6000     # scan interval
-  0600 1200     # scan window
-  0000 2a00     # min connection interval
-  0000 0000     # max connection interval
-  600060000600120000002a0000000000
+  05            # initial PHYs 1M + Coded
+  # 1M
+  6000 6000     # scan interval 60 ms, scan window 60 ms
+  0600 1200     # connection interval min 7.5 ms max 15 ms
+  0000          # max peripheral latency in number of conn events: 0
+  2a00          # supervision timeout 420 ms
+  0000 0000     # connection event length: min 0 ms max 0 ms
+  # Coded
+  6000 6000     # scan interval 60 ms, scan window 60 ms
+  0600 1200     # connection interval min 7.5 ms max 15 ms
+  0000          # max peripheral latency in number of conn events: 0
+  2a00          # supervision timeout 420 ms
+  0000 0000     # connection event length: min 0 ms max 0 ms
