@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
+  "main": "e360ble.js",
+  "directories": {
+    "doc": "doc"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,7 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "@abandonware/noble": "^1.9.2-25",
-    "@base2/pretty-print-object": "^1.0.2",
     "buffer-hexdump": "^1.0.0",
     "prettyjson": "^1.2.5",
     "yargs": "^17.7.2"
